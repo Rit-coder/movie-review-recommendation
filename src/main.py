@@ -104,7 +104,7 @@ def recommendation(genre, language):
     if (genre == "" and language == ""):
         df = df_csv_rating.groupby("Movie Name", sort=True).agg({'Rating': [np.average]})
         print(df["Rating"].sort_values("average", ascending=False))
-        print("/n")
+        print("\n")
     elif (genre != "" and language == ""):
         # write your code
         pass
