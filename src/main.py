@@ -74,11 +74,13 @@ def logout():
 def user_rating(movie_name, rating, user):
     df_csv_movie = pd.read_csv(MOVIE_PATH)
     df_csv_rating = pd.read_csv(RATING_PATH)
-    if (movie_name.lower().strip() not in df_csv_movie['Name'].unique()):
+    if movie_name.lower().strip() not in df_csv_movie['Name'].unique():
         print(" ============= Movie does not exist, Please add the movie to rate it!! ============= \n")
     else:
+        df_dedup_index=df_csv_rating.index[(df_csv_rating["Movie Name"]==movie_name.lower()) & (df_csv_rating["email_id"]==user.lower())]
+        df_dedup=df_csv_rating.drop(index=df_dedup_index)
         new_rating = pd.DataFrame([[movie_name.lower(), user.lower(), rating]], columns=rating_columns)
-        updated_datastore = df_csv_rating.append(new_rating, ignore_index=True)
+        updated_datastore = df_dedup.append(new_rating, ignore_index=True)
         updated_datastore.to_csv(RATING_PATH, columns=rating_columns, index=False)
         print(" ============= You have rated the Movie: " + movie_name.upper() + " ,Rating: " + str(
             rating) + "/5! ============= \n")
@@ -87,7 +89,7 @@ def user_rating(movie_name, rating, user):
 def get_rating_by_name(movie_name):
     df_csv_movie = pd.read_csv(MOVIE_PATH)
     df_csv_rating = pd.read_csv(RATING_PATH)
-    if (movie_name.lower().strip() not in df_csv_movie['Name'].unique()):
+    if movie_name.lower().strip() not in df_csv_movie['Name'].unique():
         print(
             " ============= Movie does not exist in our database. You can help us by adding the Movie to our Collection !! ============= \n")
 
@@ -171,5 +173,5 @@ while (True):
 
             else:
                 print("Invalid Input")
-    except:
-        pass
+    except Exception as e:
+        print(e)
