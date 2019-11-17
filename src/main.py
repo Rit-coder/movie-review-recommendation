@@ -5,14 +5,14 @@ import pandas as pd
 SESSION = False  # phase which takes true or false according to situation.
 CURRENT_USER = ""  # the user who is accessing it currently, will be appended and when logsout this will come back as it is
 # Movie Scetion!!!!!!!
-MOVIE_PATH = "C:\\Users\\ritwi\\PycharmProjects\\movie-review-recommendation\\datastore\\movies.csv"  # the csv folder that I created for movies
+MOVIE_PATH = "..\\datastore\\movies.csv"  # the csv folder that I created for movies
 movie_columns = ["Name", "Year", "Genre",
                  "Language"]  # columns for movies on the basis of its specifications/ categories.
 # User Section!!!!
-USER_PATH = "C:\\Users\\ritwi\\PycharmProjects\\movie-review-recommendation\\datastore\\users.csv"
+USER_PATH = "..\\datastore\\users.csv"
 user_columns = ["Name", "email_id", "password"]
 # Rating Section!!! and we'll go to recommendation system after some lines
-RATING_PATH = "C:\\Users\\ritwi\\PycharmProjects\\movie-review-recommendation\\datastore\\ratings.csv"
+RATING_PATH = "..\\datastore\\ratings.csv"
 rating_columns = ["Movie Name", "email_id", "Rating"]
 
 GENRE = ["comedy", "horror", "action", "romance", "thriller"]  # subcategories of Genre
