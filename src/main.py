@@ -114,7 +114,7 @@ def recommendation(genre, language):
         print(df["Rating"].sort_values("average", ascending=False))
         print("\n")
     elif (genre == "" and language != ""):
-        movie_list_with_lanuage = df_csv_movie[df_csv_movie["Lanuage"] == language]["Name"].tolist()
+        movie_list_with_lanuage = df_csv_movie[df_csv_movie["Language"] == language]["Name"].tolist()
         df = df_csv_rating[df_csv_rating["Movie Name"].isin(movie_list_with_lanuage)].groupby("Movie Name",
                                                                                               sort=True).agg(
             {'Rating': [np.average]})
