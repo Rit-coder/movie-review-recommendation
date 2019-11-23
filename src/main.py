@@ -13,11 +13,10 @@ USER_PATH = "..\\datastore\\users.csv"
 user_columns = ["Name", "email_id", "password"]
 # Rating Section!!! and we'll go to recommendation system after some lines
 RATING_PATH = "..\\datastore\\ratings.csv"
-rating_columns = ["Movie Name", "email_id", "Rating"]
+rating_columns = ["Movie Name", "email_id", "Rating","Genre","Language"]
 
 GENRE = ["comedy", "horror", "action", "romance", "thriller"]  # subcategories of Genre
-LANGUAGE = ["hindi", "english", "kannada", "tamil", "telgu"]  # subcategories of language
-
+LANGUAGE = ["hindi", "english", "kannada", "tamil", "telugu"]  # subcategories of language
 
 # function "add movie" is defined to add movie with specifications as parameters.
 def add_movie(name, year, genre, language):
@@ -76,6 +75,8 @@ def user_rating(movie_name, rating, user):
     df_csv_rating = pd.read_csv(RATING_PATH)
     if movie_name.lower().strip() not in df_csv_movie['Name'].unique():
         print(" ============= Movie does not exist, Please add the movie to rate it!! ============= \n")
+        #name=input('Enter the name of the movie')
+        #year=input('')
     else:
         df_dedup_index=df_csv_rating.index[(df_csv_rating["Movie Name"]==movie_name.lower()) & (df_csv_rating["email_id"]==user.lower())]
         df_dedup=df_csv_rating.drop(index=df_dedup_index)
@@ -101,19 +102,11 @@ def get_rating_by_name(movie_name):
 def recommendation(genre, language):
     df_csv_rating = pd.read_csv(RATING_PATH)
     df_csv_movie = pd.read_csv(MOVIE_PATH)
-    if (genre == "" and language == ""):
-        df = df_csv_rating.groupby("Movie Name", sort=True).agg({'Rating': [np.average]})
-        print(df["Rating"].sort_values("average", ascending=False))
-        print("\n")
-    elif (genre != "" and language == ""):
-        # write your code
-        pass
-    elif (genre == "" and language != ""):
-        # write your code
-        pass
-    elif (genre != "" and language != ""):
-        # write your code
-        pass
+    (genre == "" and language == ""):
+    df = df_csv_rating.groupby("Movie Name", sort=True).agg({'Rating': [np.average]})
+    print(df["Rating"].sort_values("average", ascending=False))
+    print("\n")
+
 
 
 while (True):
@@ -162,9 +155,7 @@ while (True):
                     movie_name = input("Enter a Movie name!! ")
                     get_rating_by_name(movie_name)
                 elif (inp_rec == "2"):
-                    genre = input("You can enter Genre or proceed...")
-                    language = input("You can enter Language or proceed...")
-                    recommendation(genre, language)
+                    recommendation()
                 else:
                     print("Invalid Input")
 
