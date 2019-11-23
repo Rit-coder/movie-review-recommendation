@@ -77,8 +77,9 @@ def user_rating(movie_name, rating, user):
     if movie_name.lower().strip() not in df_csv_movie['Name'].unique():
         print(" ============= Movie does not exist, Please add the movie to rate it!! ============= \n")
     else:
-        df_dedup_index=df_csv_rating.index[(df_csv_rating["Movie Name"]==movie_name.lower()) & (df_csv_rating["email_id"]==user.lower())]
-        df_dedup=df_csv_rating.drop(index=df_dedup_index)
+        df_dedup_index = df_csv_rating.index[
+            (df_csv_rating["Movie Name"] == movie_name.lower()) & (df_csv_rating["email_id"] == user.lower())]
+        df_dedup = df_csv_rating.drop(index=df_dedup_index)
         new_rating = pd.DataFrame([[movie_name.lower(), user.lower(), rating]], columns=rating_columns)
         updated_datastore = df_dedup.append(new_rating, ignore_index=True)
         updated_datastore.to_csv(RATING_PATH, columns=rating_columns, index=False)
@@ -106,14 +107,27 @@ def recommendation(genre, language):
         print(df["Rating"].sort_values("average", ascending=False))
         print("\n")
     elif (genre != "" and language == ""):
-        # write your code
-        pass
+        movie_list_with_genre = df_csv_movie[df_csv_movie["Genre"] == genre]["Name"].tolist()
+        df = df_csv_rating[df_csv_rating["Movie Name"].isin(movie_list_with_genre)].groupby("Movie Name",
+                                                                                            sort=True).agg(
+            {'Rating': [np.average]})
+        print(df["Rating"].sort_values("average", ascending=False))
+        print("\n")
     elif (genre == "" and language != ""):
-        # write your code
-        pass
+        movie_list_with_lanuage = df_csv_movie[df_csv_movie["Lanuage"] == language]["Name"].tolist()
+        df = df_csv_rating[df_csv_rating["Movie Name"].isin(movie_list_with_lanuage)].groupby("Movie Name",
+                                                                                              sort=True).agg(
+            {'Rating': [np.average]})
+        print(df["Rating"].sort_values("average", ascending=False))
+        print("\n")
     elif (genre != "" and language != ""):
-        # write your code
-        pass
+        movie_list_with_genre = df_csv_movie[df_csv_movie["Genre"] == genre]
+        movie_list_with_lanuage = movie_list_with_genre[movie_list_with_genre["Language"] == language]["Name"].tolist()
+        df = df_csv_rating[df_csv_rating["Movie Name"].isin(movie_list_with_lanuage)].groupby("Movie Name",
+                                                                                              sort=True).agg(
+            {'Rating': [np.average]})
+        print(df["Rating"].sort_values("average", ascending=False))
+        print("\n")
 
 
 while (True):
