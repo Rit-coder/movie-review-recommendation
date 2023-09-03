@@ -31,7 +31,7 @@ def add_movie(name, year, genre, language):
         updated_datastore.to_csv(MOVIE_PATH, columns=movie_columns, index=False)
         print(" ============= Movie " + name + " added! ============= \n")
 
-
+# to add new user using name email and password
 def add_user(name, email, pwd):
     df_csv_user = pd.read_csv(USER_PATH)
 
